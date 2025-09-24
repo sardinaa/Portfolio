@@ -157,13 +157,14 @@ export class App {
   this.createFallbackEnvironment();
   
   // Try to load optional env.hdr (will override fallback if successful)
-  this.tryLoadHDR('/env.hdr').catch((error) => {
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  this.tryLoadHDR(`${baseUrl}env.hdr`).catch((error) => {
     console.log('HDR environment not found, using fallback lighting');
     // You can add an HDR file to the public folder to enable environment mapping
   });
 
   // Load GLB (cache-bust in dev to avoid stale assets)
-  const glbUrl = '/desk.glb' + (import.meta.env?.DEV ? `?v=${Date.now()}` : '');
+  const glbUrl = `${baseUrl}desk.glb` + (import.meta.env?.DEV ? `?v=${Date.now()}` : '');
   this.loadGLB(glbUrl).catch((error) => {
     console.error('Failed to load GLB model:', error);
     // Application will continue without the 3D model

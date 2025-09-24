@@ -23,6 +23,7 @@ export class TopLeftInfo {
     this.element = document.createElement('div');
     this.element.className = 'top-left-info';
     
+    const baseUrl = import.meta.env.BASE_URL || '/';
     const profile = portfolioConfig.getProfile();
     this.element.innerHTML = `
       <div class="name">${profile.name}</div>
@@ -30,10 +31,10 @@ export class TopLeftInfo {
       <div class="time-row">
         <div class="time" id="current-time">10:13:08 PM</div>
         <button class="icon-btn" id="mute-btn" title="Toggle sound" aria-label="Toggle sound">
-          <img id="mute-icon" src="/icons/volume.png" alt="Volume" width="14" height="14">
+          <img id="mute-icon" src="${baseUrl}icons/volume.png" alt="Volume" width="14" height="14">
         </button>
         <button class="icon-btn" id="cam-btn" title="Toggle Free Cam" aria-label="Toggle Free Cam">
-          <img id="cam-icon" src="/icons/cursor.png" alt="Cursor" width="14" height="14">
+          <img id="cam-icon" src="${baseUrl}icons/cursor.png" alt="Cursor" width="14" height="14">
         </button>
         <button class="icon-btn bulb-btn" id="bulb-btn" title="Show Interactive Objects" aria-label="Highlight interactive objects">
           💡
@@ -58,8 +59,9 @@ export class TopLeftInfo {
 
   private toggleMute(): void {
     // Toggle mute functionality - emit custom event for other components to listen
+    const baseUrl = import.meta.env.BASE_URL || '/';
     const isMuted = this.muteIcon.src.includes('volume-mute.png');
-    this.muteIcon.src = isMuted ? '/icons/volume.png' : '/icons/volume-mute.png';
+    this.muteIcon.src = isMuted ? `${baseUrl}icons/volume.png` : `${baseUrl}icons/volume-mute.png`;
     
     const event = new CustomEvent('audio-toggle', { 
       detail: { muted: !isMuted }
@@ -69,11 +71,12 @@ export class TopLeftInfo {
 
   private toggleCamera(): void {
     // Toggle camera functionality - emit custom event
+    const baseUrl = import.meta.env.BASE_URL || '/';
     const isActive = this.camButton.classList.contains('active');
     this.camButton.classList.toggle('active');
     
     // Toggle the camera icon
-    this.camIcon.src = isActive ? '/icons/cursor.png' : '/icons/video-camera.png';
+    this.camIcon.src = isActive ? `${baseUrl}icons/cursor.png` : `${baseUrl}icons/video-camera.png`;
     
     const event = new CustomEvent('camera-toggle', {
       detail: { freeCam: !isActive }

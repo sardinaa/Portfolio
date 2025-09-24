@@ -125,8 +125,9 @@ export class App {
     this.setupEventListeners();
     
     // Try to load HDR environment
+    const baseUrl = import.meta.env.BASE_URL || '/';
     try {
-      await this.assetLoader.loadHDR('/env.hdr', this.scene);
+      await this.assetLoader.loadHDR(`${baseUrl}env.hdr`, this.scene);
       this.bootLoader.updateProgress('HDR Environment', 'success');
     } catch (error) {
       console.log('HDR environment not found, using fallback lighting');
@@ -134,7 +135,7 @@ export class App {
     }
     
     // Load the main GLB model
-    const glbUrl = '/desk.glb' + (import.meta.env?.DEV ? `?v=${Date.now()}` : '');
+    const glbUrl = `${baseUrl}desk.glb` + (import.meta.env?.DEV ? `?v=${Date.now()}` : '');
     await this.loadModel(glbUrl);
     
     // Start the render loop
