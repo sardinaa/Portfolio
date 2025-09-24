@@ -225,7 +225,7 @@ export class App {
     this.interactionManager.handlePointerMove(e, this.cameraManager.isFreeCam());
   }
 
-  private onMouseClick(): void {
+  private async onMouseClick(): Promise<void> {
     // Ignore mouse clicks that happen shortly after touch taps (within 500ms)
     // This prevents duplicate events on touch devices
     const timeSinceTouch = Date.now() - this.lastTouchClickTime;
@@ -234,10 +234,10 @@ export class App {
       return;
     }
     
-    this.onClick(false);
+    await this.onClick(false);
   }
 
-  private onClick(fromTouch: boolean = false): void {
+  private async onClick(fromTouch: boolean = false): Promise<void> {
     const mousePos = this.interactionManager.getMousePosition();
     const objects = this.sceneManager.getObjects();
     
@@ -260,10 +260,10 @@ export class App {
     
     if (this.cameraManager.isFreeCam()) return;
     
-    this.handleObjectInteraction(hit, objects);
+    await this.handleObjectInteraction(hit, objects);
   }
 
-  private handleObjectInteraction(hit: any, objects: SceneObjects): void {
+  private async handleObjectInteraction(hit: any, objects: SceneObjects): Promise<void> {
     // Monitor/Screen interaction
     if ((objects.monitorMesh && this.interactionManager.isDescendantOf(hit, objects.monitorMesh)) || 
         (objects.screenMesh && this.interactionManager.isDescendantOf(hit, objects.screenMesh))) {
@@ -274,7 +274,7 @@ export class App {
     else if (objects.paperMesh && this.interactionManager.isDescendantOf(hit, objects.paperMesh)) {
       this.uiManager.hideTopLeftInfo(); // Hide top-left-info when selecting an object
       if (this.cameraManager.getCurrentTarget() === 'paper') {
-        this.uiManager.openPDF(portfolioConfig.getCVPath());
+        await this.uiManager.openPDF(portfolioConfig.getCVPath());
       } else {
         this.cameraManager.focusTarget('paper');
       }
@@ -398,7 +398,7 @@ export class App {
     // Don't prevent default here as it would break scrolling/zooming
   };
 
-  private onTouchEnd = (e: TouchEvent): void => {
+  private onTouchEnd = async (e: TouchEvent): Promise<void> => {
     // Handle touch end - detect proper single taps
     if (e.changedTouches.length === 1 && e.touches.length === 0 && this.touchStartPos) {
       const touchEndTime = Date.now();
@@ -416,7 +416,7 @@ export class App {
         // Trigger click immediately and mark the time to prevent duplicate mouse clicks
         this.lastTouchClickTime = Date.now();
         console.log('🎯 Touch tap detected, triggering click');
-        this.onClick(true);
+        await this.onClick(true);
       }
       
       // Reset touch tracking

@@ -112,13 +112,41 @@ export class InteractionManager {
 
   setEmissive(obj: any, intensity: number): void {
     if (obj?.traverse) {
+      // Check if this is the paper object to apply special hover effect
+      const isPaperObject = obj?.name === 'Paper' || 
+                           (obj?.name && obj.name.includes('Paper')) ||
+                           (this.objects.paperMesh && this.isDescendantOf(obj, this.objects.paperMesh));
+      
       obj.traverse((o: any) => {
         if (o.isMesh) {
           const mesh = o as any;
           const material = mesh.material as any;
-          if (material && material.emissive) {
-            material.emissiveIntensity = intensity;
-            material.emissive = new THREE.Color(ANIMATION_CONFIG.EMISSIVE_COLOR);
+          if (material) {
+            if (isPaperObject) {
+              // For paper object: use bright contrasting color with much higher intensity
+              if (material.emissive) {
+                material.emissiveIntensity = intensity * 12.0; // Much higher intensity
+                material.emissive = new THREE.Color(0x003366); // Bright orange-red for maximum visibility
+              }
+              // Also darken the base color for better visibility
+              if (intensity > 0 && material.color) {
+                // Store original color if not already stored
+                if (!material.userData.originalColor) {
+                  material.userData.originalColor = material.color.clone();
+                }
+                // Apply dark tint to base color
+                material.color = new THREE.Color(0x4466cc); // Medium blue tint
+              } else if (intensity === 0 && material.userData.originalColor) {
+                // Restore original color when hover ends
+                material.color = material.userData.originalColor.clone();
+              }
+            } else {
+              // For other objects: use default light blue
+              if (material.emissive) {
+                material.emissiveIntensity = intensity;
+                material.emissive = new THREE.Color(ANIMATION_CONFIG.EMISSIVE_COLOR);
+              }
+            }
             material.needsUpdate = true;
           }
         }
@@ -176,34 +204,42 @@ export class InteractionManager {
    * Makes all interactive objects blink softly 5 times to indicate clickable areas
    */
   blinkInteractiveObjects(): void {
-    console.log('🔵 Blinking animation called');
     const interactiveObjects = this.getInteractiveTargets();
-    console.log(`🔵 Found ${interactiveObjects.length} interactive objects:`, interactiveObjects.map(obj => obj?.name || 'unnamed'));
     if (interactiveObjects.length === 0) {
-      console.warn('🟡 No interactive objects found for blinking');
       return;
     }
 
-    // Store original emissive values
-    const originalEmissives = new Map();
+  // Store original emissive and base color values
+  const originalEmissives = new Map();
     
     interactiveObjects.forEach(obj => {
       if (obj) {
         obj.traverse((child: any) => {
           if (child.isMesh && child.material) {
+            
             if (Array.isArray(child.material)) {
               child.material.forEach((mat: any, index: number) => {
-                if (mat.emissive) {
-                  originalEmissives.set(`${child.uuid}_${index}`, {
-                    color: mat.emissive.clone(),
-                    intensity: mat.emissiveIntensity || 0
-                  });
+                // Force emissive property if it doesn't exist
+                if (!mat.emissive) {
+                  mat.emissive = new THREE.Color(0x000000);
+                  mat.emissiveIntensity = 0;
                 }
+                originalEmissives.set(`${child.uuid}_${index}`, {
+                  color: mat.emissive.clone(),
+                  intensity: mat.emissiveIntensity || 0,
+                  baseColor: mat.color ? mat.color.clone() : undefined
+                });
               });
-            } else if (child.material.emissive) {
+            } else {
+              // Force emissive property if it doesn't exist
+              if (!child.material.emissive) {
+                child.material.emissive = new THREE.Color(0x000000);
+                child.material.emissiveIntensity = 0;
+              }
               originalEmissives.set(child.uuid, {
                 color: child.material.emissive.clone(),
-                intensity: child.material.emissiveIntensity || 0
+                intensity: child.material.emissiveIntensity || 0,
+                baseColor: child.material.color ? child.material.color.clone() : undefined
               });
             }
           }
@@ -246,15 +282,6 @@ export class InteractionManager {
           
           intensity = fadeIntensity * blinkIntensity;
           
-          // Log when we're in the "on" phase (less frequent logging)
-          if (Math.floor(elapsed / 200) !== Math.floor((elapsed - 16) / 200)) {
-            console.log(`🔆 Blink ${currentCycle + 1} - ON (intensity: ${intensity.toFixed(2)})`);
-          }
-        } else {
-          // Log when we enter the "off" phase (less frequent logging)
-          if (Math.floor(elapsed / 200) !== Math.floor((elapsed - 16) / 200)) {
-            console.log(`⚫ Blink ${currentCycle + 1} - OFF (pause)`);
-          }
         }
       }
       
@@ -263,6 +290,9 @@ export class InteractionManager {
         if (obj) {
           obj.traverse((child: any) => {
             if (child.isMesh && child.material) {
+              const isPaper = (obj?.name && obj.name.includes('Paper')) || (child?.name && child.name.includes('Paper')) ||
+                              (this.objects.paperMesh && (obj === this.objects.paperMesh || this.isDescendantOf(obj, this.objects.paperMesh)));
+
               if (Array.isArray(child.material)) {
                 child.material.forEach((mat: any, index: number) => {
                   if (mat.emissive) {
@@ -270,13 +300,26 @@ export class InteractionManager {
                     const original = originalEmissives.get(key);
                     if (original) {
                       if (intensity > 0) {
-                        // During blink: apply glow color and intensity
-                        mat.emissive.setHex(0x00aaff); // Bright cyan glow
-                        mat.emissiveIntensity = original.intensity + intensity;
+                        if (isPaper) {
+                          // Paper: use dark blue emissive with higher intensity
+                          mat.emissive.setHex(0x003366);
+                          mat.emissiveIntensity = original.intensity + intensity * 8.0;
+                          if (mat.color) {
+                            if (!original.baseColor) original.baseColor = mat.color.clone();
+                            mat.color.setHex(0x4466cc);
+                          }
+                        } else {
+                          // Others: use configured emissive color and normal intensity
+                          mat.emissive = new THREE.Color(ANIMATION_CONFIG.EMISSIVE_COLOR);
+                          mat.emissiveIntensity = original.intensity + intensity;
+                        }
                       } else {
                         // During pause: restore original color and intensity
                         mat.emissive.copy(original.color);
                         mat.emissiveIntensity = original.intensity;
+                        if (original.baseColor && mat.color) {
+                          mat.color.copy(original.baseColor);
+                        }
                       }
                     }
                   }
@@ -285,13 +328,26 @@ export class InteractionManager {
                 const original = originalEmissives.get(child.uuid);
                 if (original) {
                   if (intensity > 0) {
-                    // During blink: apply glow color and intensity
-                    child.material.emissive.setHex(0x00aaff); // Bright cyan glow
-                    child.material.emissiveIntensity = original.intensity + intensity;
+                    if (isPaper) {
+                      // Paper: use dark blue emissive with higher intensity
+                      child.material.emissive.setHex(0x003366);
+                      child.material.emissiveIntensity = original.intensity + intensity * 8.0;
+                      if (child.material.color) {
+                        if (!original.baseColor) original.baseColor = child.material.color.clone();
+                        child.material.color.setHex(0x4466cc);
+                      }
+                    } else {
+                      // Others: default emissive color and normal intensity
+                      child.material.emissive = new THREE.Color(ANIMATION_CONFIG.EMISSIVE_COLOR);
+                      child.material.emissiveIntensity = original.intensity + intensity;
+                    }
                   } else {
                     // During pause: restore original color and intensity
                     child.material.emissive.copy(original.color);
                     child.material.emissiveIntensity = original.intensity;
+                    if (original.baseColor && child.material.color) {
+                      child.material.color.copy(original.baseColor);
+                    }
                   }
                 }
               }
@@ -303,7 +359,7 @@ export class InteractionManager {
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        // Restore original emissive values
+        // Restore original emissive and base color values
         interactiveObjects.forEach(obj => {
           if (obj) {
             obj.traverse((child: any) => {
@@ -316,6 +372,9 @@ export class InteractionManager {
                       if (original) {
                         mat.emissive.copy(original.color);
                         mat.emissiveIntensity = original.intensity;
+                        if (original.baseColor && mat.color) {
+                          mat.color.copy(original.baseColor);
+                        }
                       }
                     }
                   });
@@ -324,17 +383,19 @@ export class InteractionManager {
                   if (original) {
                     child.material.emissive.copy(original.color);
                     child.material.emissiveIntensity = original.intensity;
+                    if (original.baseColor && child.material.color) {
+                      child.material.color.copy(original.baseColor);
+                    }
                   }
                 }
               }
             });
           }
         });
-        console.log('✅ Blinking animation completed');
+
       }
     };
     
-    console.log('🎬 Starting blinking animation');
     animate();
   }
 }

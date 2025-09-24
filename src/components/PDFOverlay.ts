@@ -3,6 +3,10 @@ import { portfolioConfig } from '../config';
 export class PDFOverlay {
   private overlayElement!: HTMLElement;
   private fullscreenElement!: HTMLElement;
+  private initialized = false;
+  private currentUrl = '';
+  
+  onClose?: () => void;
 
   constructor() {
     this.createElements();
@@ -66,7 +70,10 @@ export class PDFOverlay {
     });
 
     this.fullscreenElement.addEventListener('click', (e) => {
-      if (e.target === this.fullscreenElement) {
+      // Close when clicking anywhere that isn't a canvas or control button
+      const target = e.target as HTMLElement;
+      const interactive = target.closest('canvas, .pdf-close-btn, .pdf-download-btn');
+      if (!interactive) {
         this.closeFullscreen();
       }
     });
@@ -90,36 +97,100 @@ export class PDFOverlay {
     this.overlayElement.classList.remove('visible');
   }
 
-  public showFullscreen(): void {
+  public async showFullscreen(): Promise<void> {
+    this.currentUrl = portfolioConfig.getCVPath();
     this.fullscreenElement.classList.add('visible');
-    // Load PDF in fullscreen container
+    await this.ensurePdfjs();
     this.loadPDF('pdf-fullscreen-container');
   }
 
   public closeFullscreen(): void {
     this.fullscreenElement.classList.remove('visible');
-  }
-
-  private loadPDF(containerId: string): void {
-    const container = document.getElementById(containerId);
+    const container = document.getElementById('pdf-fullscreen-container');
     if (container) {
-      // Clear existing content
       container.innerHTML = '';
-      
-      // Create iframe for PDF
-      const iframe = document.createElement('iframe');
-      iframe.src = portfolioConfig.getCVPath();
-      iframe.style.width = '100%';
-      iframe.style.height = '100%';
-      iframe.style.border = 'none';
-      
-      container.appendChild(iframe);
+    }
+    
+    // Trigger close callback to return to default view
+    if (this.onClose) {
+      this.onClose();
     }
   }
 
+  private async loadPDF(containerId: string): Promise<void> {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
+    container.innerHTML = '';
+    const pdfjsLib = (window as any)['pdfjsLib'];
+    
+    try {
+      const loadingTask = pdfjsLib.getDocument(this.currentUrl);
+      const pdf = await loadingTask.promise;
+      
+      // Create viewer container
+      const viewer = document.createElement('div');
+      viewer.style.width = '100%';
+      viewer.style.maxWidth = '900px';
+      viewer.style.height = '100%';
+      viewer.style.overflow = 'auto';
+      viewer.style.display = 'flex';
+      viewer.style.flexDirection = 'column';
+      viewer.style.alignItems = 'center';
+      viewer.style.backgroundColor = '#fff';
+      viewer.style.borderRadius = '8px';
+      viewer.style.boxShadow = '0 4px 20px rgba(0,0,0,0.5)';
+      
+  // Allow clicks on the viewer background to bubble, but prevent clicks on canvases from closing
+      
+      container.appendChild(viewer);
+
+      // Calculate scale based on container size
+      const containerWidth = Math.min(900, window.innerWidth - 40);
+      const scale = containerWidth / 595; // A4 width in points is ~595
+
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+  const page = await pdf.getPage(pageNum);
+        const viewport = page.getViewport({ scale });
+        const canvas = document.createElement('canvas');
+        canvas.style.display = 'block';
+        canvas.style.margin = pageNum === 1 ? '0' : '20px 0 0 0';
+        canvas.style.maxWidth = '100%';
+        canvas.style.height = 'auto';
+  // Prevent clicks on the actual PDF canvas from closing the overlay
+  canvas.addEventListener('click', (ev) => ev.stopPropagation());
+        const context = canvas.getContext('2d')!;
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        viewer.appendChild(canvas);
+        await page.render({ canvasContext: context, viewport }).promise;
+      }
+    } catch (err) {
+      const msg = document.createElement('div');
+      msg.style.padding = '40px';
+      msg.style.color = '#fff';
+      msg.style.textAlign = 'center';
+      msg.style.fontSize = '18px';
+      msg.textContent = 'Unable to load CV. Please try again later.';
+      container.appendChild(msg);
+    }
+  }
+
+  private async ensurePdfjs(): Promise<void> {
+    if (this.initialized) return;
+    // Lazy load PDF.js via ESM import from pdfjs-dist
+    const pdfjsLib = await import('pdfjs-dist');
+    const workerSrc = await import('pdfjs-dist/build/pdf.worker.mjs?url');
+    (pdfjsLib as any).GlobalWorkerOptions.workerSrc = workerSrc.default;
+    ;(window as any).pdfjsLib = pdfjsLib;
+    this.initialized = true;
+  }
+
   private downloadPDF(): void {
+    if (!this.currentUrl) return;
+    
     const link = document.createElement('a');
-    link.href = portfolioConfig.getCVPath();
+    link.href = this.currentUrl;
     link.download = portfolioConfig.getCVDownloadName();
     document.body.appendChild(link);
     link.click();

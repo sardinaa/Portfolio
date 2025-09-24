@@ -36,6 +36,10 @@ export class UIManager {
       this.onUIClose?.();
     };
 
+    this.pdfOverlay.onClose = () => {
+      this.onUIClose?.();
+    };
+
     // Listen to component events
     document.addEventListener('audio-toggle', (e: Event) => {
       const customEvent = e as CustomEvent;
@@ -92,9 +96,9 @@ export class UIManager {
     await this.miniSite.navigate(section);
   }
 
-  openPDF(url: string): void {
+  async openPDF(url: string): Promise<void> {
     // Use the new PDFOverlay component for fullscreen PDF viewing
-    this.pdfOverlay.showFullscreen();
+    await this.pdfOverlay.showFullscreen();
   }
 
   closePDF(): void {
@@ -126,8 +130,8 @@ export class UIManager {
     this.pdfOverlay.showModal();
   }
 
-  showPDFFullscreen(): void {
-    this.pdfOverlay.showFullscreen();
+  async showPDFFullscreen(): Promise<void> {
+    await this.pdfOverlay.showFullscreen();
   }
 
   setHelperText(text: string): void {
