@@ -8,6 +8,7 @@ import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 
 import { MiniSite } from '../ui/miniSite.ts';
 import { PdfViewer } from '../ui/pdfViewer.ts';
+import { portfolioConfig } from '../config/index.ts';
 
 export class App {
   private root: HTMLDivElement;
@@ -787,7 +788,7 @@ export class App {
   }
 
   openResume() {
-    this.pdfViewer.open('/AI_Engineer_CV_Oscar_Palomo.pdf');
+    this.pdfViewer.open(portfolioConfig.getCVPath());
   }
 
   closeOverlays() {

@@ -34,11 +34,15 @@ export class PortfolioConfigManager {
   }
 
   getProfileImage(): string {
-    return this.config.profile.profileImage;
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    const path = this.config.profile.profileImage;
+    return path.startsWith('/') ? `${baseUrl}${path.slice(1)}` : path;
   }
 
   getCVPath(): string {
-    return this.config.profile.cvPath;
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    const path = this.config.profile.cvPath;
+    return path.startsWith('/') ? `${baseUrl}${path.slice(1)}` : path;
   }
 
   getCVDownloadName(): string {
