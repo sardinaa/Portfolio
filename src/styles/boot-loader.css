@@ -1,0 +1,260 @@
+/* Boot Loader Styles - Retro PC Boot Screen */
+.boot-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000000;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  color: #00ff00;
+  overflow: hidden;
+}
+
+.boot-terminal {
+  width: 90%;
+  max-width: 1000px;
+  height: 90%;
+  max-height: 600px;
+  background: #000000;
+  border: 2px solid #00ff00;
+  border-radius: 4px;
+  padding: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 0, 0.3),
+    inset 0 0 20px rgba(0, 255, 0, 0.1);
+}
+
+.boot-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.boot-logo {
+  font-size: 12px;
+  line-height: 1.1;
+  color: #00ff00;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  white-space: pre;
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+}
+
+.boot-version {
+  font-size: 14px;
+  color: #00aa00;
+  margin: 5px 0;
+}
+
+.boot-copyright {
+  font-size: 12px;
+  color: #007700;
+  margin: 5px 0;
+}
+
+.boot-info {
+  font-size: 11px;
+  color: #00aa00;
+  margin: 5px 0;
+}
+
+.boot-separator {
+  font-size: 12px;
+  color: #00ff00;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.boot-processes {
+  height: 350px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #00ff00 #000000;
+}
+
+.boot-processes::-webkit-scrollbar {
+  width: 6px;
+}
+
+.boot-processes::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+.boot-processes::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border-radius: 3px;
+}
+
+.boot-process {
+  display: flex;
+  align-items: center;
+  margin: 2px 0;
+  font-size: 13px;
+  line-height: 1.4;
+  animation: processAppear 0.3s ease-out;
+}
+
+@keyframes processAppear {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.process-timestamp {
+  color: #00aa00;
+  margin-right: 10px;
+  min-width: 80px;
+  font-size: 11px;
+}
+
+.process-status {
+  margin-right: 10px;
+  min-width: 70px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.boot-process.loading .process-status {
+  color: #ffaa00;
+  animation: statusBlink 1s infinite;
+}
+
+.boot-process.success .process-status {
+  color: #00ff00;
+}
+
+.boot-process.error .process-status {
+  color: #ff0000;
+}
+
+@keyframes statusBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+.process-text {
+  color: #00ff00;
+  flex: 1;
+}
+
+.progress-bar {
+  font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  font-size: 11px;
+  color: #00aa00;
+  margin-top: 2px;
+  margin-left: 20px;
+}
+
+.boot-cursor {
+  color: #00ff00;
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 5px;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
+}
+
+/* Scanline effect for authentic CRT look */
+.boot-terminal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 0, 0.03) 2px,
+    rgba(0, 255, 0, 0.03) 4px
+  );
+  pointer-events: none;
+}
+
+/* Slight glow effect */
+.boot-terminal::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 255, 0, 0.1) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .boot-terminal {
+    width: 95%;
+    height: 95%;
+    padding: 15px;
+  }
+  
+  .boot-logo {
+    font-size: 6px;
+  }
+  
+  .boot-version {
+    font-size: 12px;
+  }
+  
+  .boot-copyright {
+    font-size: 10px;
+  }
+  
+  .boot-processes {
+    height: 250px;
+  }
+  
+  .boot-process {
+    font-size: 11px;
+  }
+  
+  .process-timestamp {
+    font-size: 9px;
+    min-width: 60px;
+  }
+  
+  .process-status {
+    min-width: 50px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .boot-terminal {
+    padding: 10px;
+  }
+  
+  .boot-logo {
+    font-size: 4px;
+  }
+  
+  .boot-processes {
+    height: 200px;
+  }
+  
+  .boot-process {
+    font-size: 10px;
+  }
+}

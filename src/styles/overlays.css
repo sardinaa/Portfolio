@@ -1,0 +1,116 @@
+/* Overlay and modal styles */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.overlay.visible {
+  display: flex;
+}
+
+.modal {
+  width: min(92vw, 1100px);
+  height: min(88vh, 800px);
+  background: #0b0f14;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+  flex: 1;
+  min-height: 0;
+}
+
+.close-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #c9d1d9;
+  border-radius: 7px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+/* PDF Overlay - Full screen with semi-dark background */
+.pdf-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  z-index: 30;
+}
+
+.pdf-overlay.visible {
+  display: block;
+}
+
+.pdf-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #fff;
+  color: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 31;
+}
+
+.pdf-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.pdf-download-btn {
+  position: absolute;
+  top: 20px;
+  right: 80px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #fff;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 31;
+}
+
+.pdf-download-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.pdf-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px 20px 20px;
+  box-sizing: border-box;
+}

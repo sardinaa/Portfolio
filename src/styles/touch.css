@@ -1,0 +1,160 @@
+/* Touch-specific optimizations and gestures */
+
+/* Disable iOS Safari bounce effect */
+body {
+  width: 100%;
+  height: 100%;
+  /* Use custom viewport height to handle mobile browser UI */
+  height: calc(var(--vh, 1vh) * 100);
+  /* Prevent overscroll bounce without breaking CSS3D positioning */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+#app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Optimize for GPU acceleration on mobile */
+#app, canvas {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Touch gesture optimizations */
+@media (pointer: coarse) {
+  /* Larger hit areas for touch */
+  .interactive-element {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 8px;
+  }
+  
+  /* Faster tap response */
+  button, .btn, .clickable {
+    cursor: pointer;
+  }
+  
+  /* Optimize scrolling performance */
+  .scrollable {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Tablet-specific optimizations */
+@media (min-width: 768px) and (max-width: 1024px) and (pointer: coarse) {
+  .top-left-info {
+    font-size: 18px;
+  }
+  
+  .icon-btn {
+    height: 34px;
+    width: 34px;
+    min-width: 34px;
+    min-height: 34px;
+  }
+  
+  .modal {
+    width: 90vw;
+    height: 85vh;
+  }
+}
+
+/* High refresh rate display optimization */
+@media (min-resolution: 120dpi) {
+  canvas {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+  }
+}
+
+/* Landscape orientation optimizations for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .top-left-info {
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+  }
+  
+  .helper {
+    bottom: 8px;
+    right: 8px;
+    font-size: 11px;
+  }
+  
+  .modal {
+    height: 95vh;
+  }
+}
+
+/* Prevent double-tap zoom */
+button, .btn, .clickable, canvas {
+  touch-action: manipulation;
+}
+
+/* Ensure CSS3D elements (like mini-site) are properly displayed */
+.mini-site {
+  display: block !important;
+  pointer-events: auto !important;
+}
+
+/* CSS3D specific optimizations */
+#css3d-root * {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Responsive camera behavior helpers */
+@media (max-width: 480px) {
+  /* Ensure canvas takes full available space on small screens */
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  /* Prevent any UI elements from blocking the 3D view */
+  .overlay-element {
+    pointer-events: none;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Optimize for landscape mobile viewing */
+  canvas {
+    object-fit: contain;
+  }
+  
+  /* Ensure full height usage in landscape */
+  #app {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+/* Optimize rendering performance */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+}
+
+/* Focus styles for keyboard navigation (accessibility) */
+@media (pointer: fine) {
+  button:focus, .btn:focus {
+    outline: 2px solid #58a6ff;
+    outline-offset: 2px;
+  }
+}
+
+/* Remove focus outline on touch devices */
+@media (pointer: coarse) {
+  button:focus, .btn:focus {
+    outline: none;
+  }
+}

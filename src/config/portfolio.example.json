@@ -1,0 +1,265 @@
+{
+  "profile": {
+    "name": "Your Name",
+    "title": "Your Professional Title",
+    "profileImage": "/me.jpg",
+    "cvPath": "/your-cv.pdf",
+    "cvDownloadName": "Your_Name_CV.pdf"
+  },
+  "contact": {
+    "email": "your.email@example.com",
+    "phone": "+1 (555) 123-4567",
+    "website": "https://yourwebsite.com",
+    "linkedin": "/in/your-linkedin-profile",
+    "github": "github.com/your-username"
+  },
+  "hobbies": {
+    "plant": {
+      "title": "🌱 Your Hobby Title",
+      "description": "Description of your hobby or interest...",
+      "details": [
+        "Detail about your hobby",
+        "Another aspect you enjoy",
+        "Related activities or skills",
+        "Additional information"
+      ]
+    },
+    "camera": {
+      "title": "📸 Another Hobby",
+      "description": "Description of another hobby or interest...",
+      "details": [
+        "Aspect 1 of this hobby",
+        "Aspect 2 of this hobby", 
+        "Related skills or activities",
+        "Equipment or tools you use"
+      ]
+    },
+    "shoes": {
+      "title": "👟 Third Hobby",
+      "description": "Description of a third hobby or interest...",
+      "details": [
+        "What you love about this activity",
+        "Skills you've developed",
+        "Goals or achievements"
+      ]
+    }
+  },
+  "terminal": {
+    "welcome": {
+      "title": "Welcome to Your Portfolio Terminal v1.0",
+      "subtitle": "Type 'help' to see available commands or click on the header options above.",
+      "divider": "───────────────────────────────────────────────────────────────────"
+    },
+    "prompt": "user@yourportfolio:~$",
+    "placeholder": "Enter a command...",
+    "sections": {
+      "help": {
+        "title": "Available Commands:",
+        "commands": [
+          {"cmd": "help", "desc": "Show this help message"},
+          {"cmd": "about", "desc": "Learn about me"},
+          {"cmd": "projects", "desc": "View my projects"},
+          {"cmd": "skills", "desc": "Technical skills and expertise"},
+          {"cmd": "experience", "desc": "Work experience and roles"},
+          {"cmd": "contact", "desc": "Contact information"},
+          {"cmd": "education", "desc": "Educational background"},
+          {"cmd": "certifications", "desc": "Professional certifications"},
+          {"cmd": "leadership", "desc": "Leadership experience"},
+          {"cmd": "sudo", "desc": "Super user access (try it!)"},
+          {"cmd": "clear", "desc": "Clear the terminal"},
+          {"cmd": "exit", "desc": "Close the terminal"}
+        ],
+        "footer": "You can also click on the header commands above."
+      },
+      "about": {
+        "title": "About Me",
+        "content": "Write your personal introduction here. Describe your passion, background, and what drives you in your professional journey. This is where you can showcase your personality and give visitors a sense of who you are beyond your technical skills.",
+        "specialties": [
+          "Your main area of expertise",
+          "Secondary specialization",
+          "Another key skill area",
+          "Additional competency"
+        ]
+      },
+      "projects": {
+        "title": "Featured Projects",
+        "projects": [
+          {
+            "name": "Project Name 1",
+            "icon": "🌐",
+            "description": "Brief description of your project and what it accomplishes",
+            "technologies": "Technology stack used (e.g., React, Node.js, MongoDB)"
+          },
+          {
+            "name": "Project Name 2",
+            "icon": "📊",
+            "description": "Another project description highlighting key features",
+            "technologies": "Technologies and tools utilized"
+          },
+          {
+            "name": "Project Name 3",
+            "icon": "🎮",
+            "description": "Third project showcasing different skills or domain",
+            "technologies": "Relevant tech stack"
+          }
+        ],
+        "footer": "Visit my GitHub or portfolio website for more projects and details!"
+      },
+      "skills": {
+        "title": "Technical Skills",
+        "categories": [
+          {
+            "name": "Frontend Development",
+            "skills": [
+              "Programming languages and frameworks you use",
+              "UI/UX tools and methodologies",
+              "Styling frameworks and preprocessors",
+              "Build tools and bundlers"
+            ]
+          },
+          {
+            "name": "Backend Development",
+            "skills": [
+              "Server-side languages and frameworks",
+              "API design and development",
+              "Database technologies",
+              "Cloud services and deployment"
+            ]
+          },
+          {
+            "name": "Tools & Technologies",
+            "skills": [
+              "Development tools and IDEs",
+              "Version control systems",
+              "Testing frameworks",
+              "DevOps and CI/CD tools"
+            ]
+          }
+        ]
+      },
+      "experience": {
+        "title": "Work Experience",
+        "positions": [
+          {
+            "title": "Current/Recent Job Title",
+            "company": "Company Name",
+            "period": "Start Year - Present",
+            "highlights": [
+              "Key achievement or responsibility",
+              "Quantifiable impact you made",
+              "Technologies or methodologies you introduced",
+              "Leadership or collaboration examples"
+            ]
+          },
+          {
+            "title": "Previous Job Title",
+            "company": "Previous Company",
+            "period": "Start Year - End Year",
+            "highlights": [
+              "Major accomplishments in this role",
+              "Projects you led or contributed to significantly",
+              "Skills developed or problems solved"
+            ]
+          }
+        ]
+      },
+      "education": {
+        "title": "Education",
+        "degree": {
+          "title": "Your Degree Title",
+          "school": "University or Institution Name",
+          "period": "Start Year - Graduation Year",
+          "details": [
+            "GPA or academic honors (if applicable)",
+            "Relevant distinctions or achievements",
+            "Focus areas or specializations"
+          ]
+        },
+        "coursework": [
+          "Relevant course 1",
+          "Relevant course 2", 
+          "Important subject area",
+          "Specialized training or workshops"
+        ],
+        "projects": [
+          "Academic project 1 (technologies used)",
+          "Research project or thesis topic",
+          "Collaborative projects or competitions"
+        ]
+      },
+      "certifications": {
+        "title": "Professional Certifications",
+        "certifications": [
+          {
+            "name": "Certification Name",
+            "year": "Year Obtained",
+            "issuer": "Certifying Organization"
+          },
+          {
+            "name": "Another Certification",
+            "year": "Year",
+            "issuer": "Issuing Body"
+          }
+        ],
+        "footer": "Continuously learning through online courses, workshops, and industry events!"
+      },
+      "leadership": {
+        "title": "Leadership & Achievements",
+        "experience": [
+          {
+            "role": "Leadership Role or Position",
+            "period": "Time Period",
+            "highlights": [
+              "Team size managed or scope of responsibility",
+              "Key initiatives led or processes improved",
+              "Measurable outcomes or team achievements"
+            ]
+          },
+          {
+            "role": "Volunteer or Community Role",
+            "highlights": [
+              "Community impact or contribution",
+              "Skills developed through service",
+              "Ongoing commitment to causes you care about"
+            ]
+          }
+        ],
+        "achievements": [
+          "Professional recognition or awards",
+          "Significant project outcomes or business impact",
+          "Speaking engagements or publications",
+          "Open source contributions or community involvement"
+        ],
+        "community": [
+          "Mentoring activities or teaching",
+          "Professional organization memberships",
+          "Volunteer work or social impact initiatives"
+        ]
+      },
+      "sudo": {
+        "title": "sudo: access denied",
+        "message": "Nice try! But you don't have root access to my portfolio... 😄",
+        "secret": "Share a fun personal story or interesting fact about yourself here.",
+        "funFacts": [
+          "An interesting hobby or skill you have",
+          "A fun fact about your background or experiences",
+          "Your favorite productivity tip or tool",
+          "A quirky habit or preference that defines you"
+        ]
+      }
+    }
+  },
+  "ui": {
+    "topLeftInfo": {
+      "title": "Interactive Portfolio",
+      "instructions": [
+        "Click objects to explore",
+        "Press F for free camera",
+        "Press Esc to return home"
+      ]
+    },
+    "helperText": {
+      "defaultMessage": "Click on objects to interact • Press F for free camera mode"
+    }
+  }
+}

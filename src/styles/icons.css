@@ -1,0 +1,67 @@
+/* Icon button styles */
+.icon-btn {
+  background: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+  height: 32px;
+  width: 32px;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.icon-btn:hover,
+.icon-btn.active {
+  background: #222;
+}
+
+.icon-btn img {
+  display: block;
+  width: 14px;
+  height: 14px;
+  filter: invert(1);
+}
+
+.icon-btn[aria-pressed="true"] {
+  background: #000;
+}
+
+/* Bulb button specific styling */
+.bulb-btn {
+  font-size: 12px;
+  line-height: 1;
+  color: #ffdd44;
+  text-shadow: 0 0 4px rgba(255, 221, 68, 0.5);
+  transition: all 0.15s ease;
+}
+
+.bulb-btn:hover {
+  background: #222;
+  color: #ffee66;
+  text-shadow: 0 0 8px rgba(255, 238, 102, 0.8);
+  transform: scale(1.1);
+}
+
+.bulb-btn:active {
+  transform: scale(0.9);
+}
+
+.bulb-btn:disabled,
+.bulb-btn[style*="not-allowed"] {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  pointer-events: none;
+}
+
+.bulb-btn:disabled:hover,
+.bulb-btn[style*="not-allowed"]:hover {
+  background: #000;
+  color: #ffdd44;
+  text-shadow: 0 0 4px rgba(255, 221, 68, 0.5);
+  transform: scale(1);
+}

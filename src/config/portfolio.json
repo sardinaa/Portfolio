@@ -1,0 +1,302 @@
+{
+  "profile": {
+    "name": "Òscar Palomo",
+    "title": "AI Engineer",
+    "profileImage": "/me.jpg",
+    "cvPath": "/AI_Engineer_CV_Oscar_Palomo.pdf",
+    "cvDownloadName": "Oscar_Palomo_CV.pdf"
+  },
+  "contact": {
+    "email": "oscarpaldow@gmail.com",
+    "phone": "+34 620 82 87 84",
+    "website": "https://portfolio.dev",
+    "linkedin": "www.linkedin.com/in/oscarpalomod",
+    "github": "https://github.com/sardinaa"
+  },
+  "hobbies": {
+    "plant": {
+      "title": "🌱 Gardening & Plants",
+      "description": "I love cultivating plants and creating green spaces. There's something therapeutic about watching life grow and flourish.",
+      "details": [
+        "Indoor plant collection",
+        "Herb gardening",
+        "Sustainable living",
+        "Nature photography"
+      ]
+    },
+    "camera": {
+      "title": "📸 Photography", 
+      "description": "Capturing moments and exploring the world through different perspectives. Always learning new techniques and styles.",
+      "details": [
+        "Landscape photography",
+        "Street photography", 
+        "Digital editing",
+        "Film photography"
+      ]
+    },
+    "shoes": {
+      "title": "👟 Running & Fitness",
+      "description": "I enjoy staying active with easy jogs, long runs, and trail adventures — and I love hiking whenever I can get out into nature.",
+      "details": [
+        "Long distance running",
+        "Trail running",
+        "Outdoor adventures"
+      ]
+    }
+  },
+  "terminal": {
+    "welcome": {
+      "title": "Welcome to Portfolio Terminal v1.0",
+      "subtitle": "Type 'help' to see available commands or click on the header options above.",
+      "divider": "───────────────────────────────────────────────────────────────────"
+    },
+    "prompt": "user@portfolio:~$",
+    "placeholder": "Enter a command...",
+    "sections": {
+      "help": {
+        "title": "Available Commands:",
+        "commands": [
+          {"cmd": "help", "desc": "Show this help message"},
+          {"cmd": "about", "desc": "Learn about me"},
+          {"cmd": "projects", "desc": "View my projects"},
+          {"cmd": "skills", "desc": "Technical skills and expertise"},
+          {"cmd": "experience", "desc": "Work experience and roles"},
+          {"cmd": "contact", "desc": "Contact information"},
+          {"cmd": "education", "desc": "Educational background"},
+          {"cmd": "certifications", "desc": "Professional certifications"},
+          {"cmd": "leadership", "desc": "Leadership experience"},
+          {"cmd": "sudo", "desc": "Super user access (try it!)"},
+          {"cmd": "clear", "desc": "Clear the terminal"},
+          {"cmd": "exit", "desc": "Close the terminal"}
+        ],
+        "footer": "You can also click on the header commands above."
+      },
+      "about": {
+        "title": "About Me",
+        "content": "AI Engineer with experience in developing intelligent systems and advanced audiovisual applications. Skilled in designing intelligent systems that combine computer vision, deep learning, and interactive technologies. Experienced with C++, Python, and modern AI frameworks. Passionate about leveraging technical expertise to solve complex problems, deliver practical AI solutions, and continuously learn emerging technologies.",
+        "specialties": [
+          "Computer Vision & Deep Learning",
+          "Interactive/Intelligent Systems",
+          "C++ & Python",
+          "Modern AI frameworks (PyTorch, TensorFlow)"
+        ]
+      },
+      "projects": {
+        "title": "Featured Projects",
+        "projects": [
+          {
+            "name": "3D Portfolio Website",
+            "icon": "🌐",
+            "description": "Interactive 3D environment built with Three.js and TypeScript",
+            "technologies": "WebGL, CSS3D, Vite"
+          },
+          {
+            "name": "Data Visualization Dashboard", 
+            "icon": "📊",
+            "description": "Real-time analytics platform with interactive charts",
+            "technologies": "React, D3.js, Node.js, PostgreSQL"
+          },
+          {
+            "name": "WebGL Game Engine",
+            "icon": "🎮", 
+            "description": "Custom game engine with physics and lighting systems",
+            "technologies": "WebGL, GLSL, TypeScript"
+          },
+          {
+            "name": "E-commerce Platform",
+            "icon": "🛒",
+            "description": "Full-stack application with payment integration", 
+            "technologies": "Next.js, Stripe API, MongoDB"
+          }
+        ],
+        "footer": "Visit my GitHub or project portfolio for more details!"
+      },
+      "skills": {
+        "title": "Technical Skills",
+        "categories": [
+          {
+            "name": "Programming",
+            "skills": [
+              "Python (NumPy, pandas, scikit-learn)",
+              "Deep Learning (TensorFlow, PyTorch)",
+              "C/C++"
+            ]
+          },
+          {
+            "name": "Big Data",
+            "skills": [
+              "Accelerated Computing (CUDA)",
+              "Cloud (AWS, Azure)",
+              "SQL, ETL",
+              "Airflow, Terraform",
+              "Pipeline orchestration"
+            ]
+          },
+          {
+            "name": "DevOps",
+            "skills": [
+              "Bash, Git, Docker",
+              "Open Source",
+              "Unit/Integration testing",
+              "CI/CD"
+            ]
+          },
+          {
+            "name": "Communication",
+            "skills": [
+              "Confident presenting ideas and results to peers, leadership, and stakeholders"
+            ]
+          },
+          {
+            "name": "Writing",
+            "skills": [
+              "Academic writing; mentoring early-stage researchers"
+            ]
+          }
+        ]
+      },
+      "experience": {
+        "title": "Work Experience",
+        "positions": [
+          {
+            "title": "C++ Developer",
+            "company": "Zitro Labs",
+            "period": "09/2023 — 01/2025 · Barcelona",
+            "highlights": [
+              "Key skills: C++, Shaders, OOP, Technical Design, Git, Confluence",
+              "Developed, maintained and scaled reusable code for VIDEO BINGO platform"
+            ]
+          },
+          {
+            "title": "AI Engineer Intern",
+            "company": "Sopra Steria",
+            "period": "09/2024 — 12/2024 · Remote",
+            "highlights": [
+              "Key skills: Python, LLM, RAG, LangChain, PandasAI, SQL, Streamlit",
+              "Built a RAG agent to ingest and index structured datasets for fast retrieval and analysis",
+              "Created data pipelines for ingestion, validation, and transformation; applied SQL and pandas for preprocessing; implemented monitoring for data quality"
+            ]
+          },
+          {
+            "title": "Audiovisual Technician Intern",
+            "company": "Ricoh",
+            "period": "06/2023 — 08/2024 · Barcelona",
+            "highlights": [
+              "Key skills: Cisco, Zoom, Room sonorization",
+              "Managed and maintained videoconference systems"
+            ]
+          },
+          {
+            "title": "Interactive Systems Engineer",
+            "company": "FuBIntLab Research Group (UPF)",
+            "period": "01/2022 — 06/2022 · Barcelona",
+            "highlights": [
+              "Key skills: Python, C++, YOLOv6, OpenCV, TensorFlow, Unity",
+              "Prototyped a mixed-reality, whole-body interaction system with computer-vision tracking"
+            ]
+          }
+        ]
+      },
+      "education": {
+        "title": "Education",
+        "degree": {
+          "title": "Master's Degree in Artificial Intelligence",
+          "school": "International University of La Rioja (UNIR)",
+          "period": "— Remote",
+          "details": [
+            "Advanced Deep Learning: deep architectures, optimization, unsupervised methods",
+            "NLP & Conversational AI: text analytics, sentiment analysis, conversational agents",
+            "Intelligent Systems: automated reasoning, AI planning, autonomous decision-making"
+          ]
+        },
+        "coursework": [],
+        "projects": [],
+        "additionalDegrees": [
+          {
+            "title": "Bachelor in Audiovisual Systems Engineering",
+            "school": "Pompeu Fabra University (UPF)",
+            "period": "— Barcelona",
+            "details": [
+              "Audiovisual Signal Processing: filtering, encoding, and real-time processing of audio, image, and video",
+              "Computer Vision & Deep Learning: feature extraction, 3D reconstruction, neural networks",
+              "Interactive Systems: design of adaptive, user-centered HCI"
+            ]
+          }
+        ]
+      },
+      "certifications": {
+        "title": "Professional Certifications",
+        "certifications": [
+          {
+            "name": "Deep Learning Specialization",
+            "year": "",
+            "issuer": "deeplearning.ai"
+          },
+          {
+            "name": "Data Engineering Professional Certificate",
+            "year": "",
+            "issuer": "deeplearning.ai"
+          }
+        ],
+        "footer": ""
+      },
+      "leadership": {
+        "title": "Leadership & Achievements",
+        "experience": [
+          {
+            "role": "Technical Team Lead",
+            "period": "2022 - Present",
+            "highlights": [
+              "Managing team of 6 developers",
+              "Established coding standards and best practices",
+              "Improved team productivity by 35%"
+            ]
+          },
+          {
+            "role": "Open Source Contributor", 
+            "highlights": [
+              "Maintainer of popular Three.js utility library (2k+ stars)",
+              "Regular contributor to TypeScript and React projects",
+              "Speaker at local developer meetups"
+            ]
+          }
+        ],
+        "achievements": [
+          "\"Developer of the Year\" award (2022)",
+          "Led successful migration to microservices architecture",
+          "Published technical articles with 50k+ reads",
+          "Organized company hackathons and coding workshops"
+        ],
+        "community": [
+          "Volunteer coding instructor for underserved youth",
+          "Mentor for junior developers in tech bootcamps",
+          "Board member of local tech professional association"
+        ]
+      },
+      "sudo": {
+        "title": "sudo: access denied", 
+        "message": "Nice try! But you don't have root access to my portfolio... 😄",
+        "secret": "I once spent 3 hours debugging a CSS issue that was caused by a single missing semicolon.",
+        "funFacts": [
+          "I can solve a Rubik's cube in under 2 minutes",
+          "My first program was \"Hello World\" in BASIC at age 12",
+          "I have a collection of 47 rubber ducks for debugging", 
+          "My favorite keyboard shortcut is Ctrl+Shift+I"
+        ]
+      }
+    }
+  },
+  "ui": {
+    "topLeftInfo": {
+      "title": "Interactive 3D Portfolio",
+      "instructions": [
+        "Click objects to explore",
+        "Press F for free camera",
+        "Press Esc to return home"
+      ]
+    },
+    "helperText": {
+      "defaultMessage": "Click on objects to interact • Press F for free camera mode"
+    }
+  }
+}

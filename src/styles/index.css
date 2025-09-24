@@ -1,0 +1,9 @@
+/* Main styles index - imports all other styles */
+@import './base.css';
+@import './boot-loader.css';
+@import './top-panel.css';
+@import './icons.css';
+@import './overlays.css';
+@import './components.css';
+@import './responsive.css';
+@import './touch.css';

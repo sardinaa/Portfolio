@@ -1,0 +1,198 @@
+/* Responsive design for mobile and tablet devices */
+@media (max-width: 768px) {
+  .top-left-info {
+    top: 20px;
+    left: 20px;
+    pointer-events: auto;
+  }
+  
+  .top-left-info .name {
+    font-size: 20px;
+  }
+  
+  .top-left-info .title {
+    font-size: 16px;
+  }
+  
+  .top-left-info .time {
+    font-size: 14px;
+  }
+  
+  .icon-btn {
+    height: 32px; /* Increased for better touch targets */
+    width: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    touch-action: manipulation; /* Optimizes touch response */
+  }
+  
+  .icon-btn img {
+    width: 14px; /* Slightly larger icons */
+    height: 14px;
+  }
+  
+  .helper {
+    bottom: 12px;
+    right: 12px;
+    font-size: 12px;
+    padding: 8px 12px; /* Better touch target */
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 4px;
+    touch-action: manipulation;
+  }
+  
+  .modal {
+    width: 95vw;
+    height: 90vh;
+  }
+  
+  .pdf-close-btn,
+  .pdf-download-btn {
+    top: 10px;
+    height: 36px; /* Larger touch targets */
+    min-width: 36px;
+    touch-action: manipulation;
+  }
+  
+  .pdf-download-btn {
+    right: 60px;
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-left-info {
+    top: 16px;
+    left: 16px;
+  }
+  
+  .top-left-info .time-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .icon-btn {
+    height: 36px; /* Even larger touch targets on small screens */
+    width: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+  
+  .icon-btn img {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .helper {
+    bottom: 16px;
+    right: 16px;
+    font-size: 11px;
+    padding: 10px 14px;
+  }
+  
+  .pdf-close-btn {
+    height: 40px;
+    min-width: 40px;
+  }
+  
+  .pdf-download-btn {
+    display: none; /* Hide download button on very small screens */
+  }
+}
+
+/* Touch-specific optimizations for all screen sizes */
+@media (pointer: coarse) {
+  .icon-btn {
+    height: 36px;
+    width: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+  
+  .helper {
+    padding: 10px 14px;
+    touch-action: manipulation;
+  }
+  
+  /* Ensure all interactive elements have proper touch targets */
+  button, .clickable {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+}
+
+/* Landscape orientation optimizations for mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .top-left-info {
+    top: 8px;
+    left: 8px;
+    font-size: 12px;
+  }
+  
+  .top-left-info .name {
+    font-size: 16px;
+  }
+  
+  .top-left-info .title {
+    font-size: 14px;
+  }
+  
+  .helper {
+    bottom: 6px;
+    right: 6px;
+    font-size: 10px;
+  }
+  
+  .modal {
+    height: 95vh;
+  }
+  
+  .icon-btn {
+    height: 28px;
+    width: 28px;
+    min-width: 28px;
+    min-height: 28px;
+  }
+}
+
+/* Very small screens (small phones in portrait) */
+@media (max-width: 320px) {
+  .top-left-info {
+    top: 12px;
+    left: 12px;
+    font-size: 11px;
+  }
+  
+  .top-left-info .name {
+    font-size: 18px;
+  }
+  
+  .top-left-info .title {
+    font-size: 14px;
+  }
+  
+  .icon-btn {
+    height: 32px;
+    width: 32px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  
+  .helper {
+    bottom: 12px;
+    right: 12px;
+    font-size: 10px;
+    padding: 8px 10px;
+  }
+}
+
+/* High-DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .icon-btn img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
