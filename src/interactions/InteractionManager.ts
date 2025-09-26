@@ -28,7 +28,8 @@ export class InteractionManager {
       phone: !!objects.phoneMesh,
       plant: !!objects.plantMesh,
       camera: !!objects.cameraMesh,
-      shoes: !!objects.shoesMesh
+      shoes: !!objects.shoesMesh,
+      keyboard: !!objects.keyboardMesh
     });
   }
 
@@ -49,7 +50,7 @@ export class InteractionManager {
   private hasInteractiveObjects(): boolean {
     return !!(this.objects.monitorMesh || this.objects.paperMesh || this.objects.screenMesh || 
               this.objects.lampMesh || this.objects.phoneMesh || this.objects.plantMesh || 
-              this.objects.cameraMesh || this.objects.shoesMesh);
+              this.objects.cameraMesh || this.objects.shoesMesh || this.objects.keyboardMesh);
   }
 
   private getInteractiveTargets(): any[] {
@@ -63,6 +64,7 @@ export class InteractionManager {
     if (this.objects.plantMesh) targets.push(this.objects.plantMesh);
     if (this.objects.cameraMesh) targets.push(this.objects.cameraMesh);
     if (this.objects.shoesMesh) targets.push(this.objects.shoesMesh);
+    if (this.objects.keyboardMesh) targets.push(this.objects.keyboardMesh);
     
     return targets;
   }
@@ -76,6 +78,7 @@ export class InteractionManager {
     if (this.objects.plantMesh && this.isDescendantOf(hit, this.objects.plantMesh)) return this.objects.plantMesh;
     if (this.objects.cameraMesh && this.isDescendantOf(hit, this.objects.cameraMesh)) return this.objects.cameraMesh;
     if (this.objects.shoesMesh && this.isDescendantOf(hit, this.objects.shoesMesh)) return this.objects.shoesMesh;
+    if (this.objects.keyboardMesh && this.isDescendantOf(hit, this.objects.keyboardMesh)) return this.objects.keyboardMesh;
     
     return hit;
   }
@@ -97,7 +100,8 @@ export class InteractionManager {
       (this.objects.phoneMesh && this.isDescendantOf(obj, this.objects.phoneMesh)) ||
       (this.objects.plantMesh && this.isDescendantOf(obj, this.objects.plantMesh)) ||
       (this.objects.cameraMesh && this.isDescendantOf(obj, this.objects.cameraMesh)) ||
-      (this.objects.shoesMesh && this.isDescendantOf(obj, this.objects.shoesMesh))
+      (this.objects.shoesMesh && this.isDescendantOf(obj, this.objects.shoesMesh)) ||
+      (this.objects.keyboardMesh && this.isDescendantOf(obj, this.objects.keyboardMesh))
     );
   }
 

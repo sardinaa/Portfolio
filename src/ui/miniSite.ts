@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { CSS3DObject, CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 import { portfolioConfig } from '../config';
+import { SoundManager } from '../systems/SoundManager';
 
 export class MiniSite {
   private rootEl: HTMLDivElement;
@@ -13,8 +14,10 @@ export class MiniSite {
   private outputEl: HTMLDivElement;
   private inputEl: HTMLInputElement;
   private styleEl: HTMLStyleElement;
+  private soundManager?: SoundManager;
 
-  constructor() {
+  constructor(soundManager?: SoundManager) {
+    this.soundManager = soundManager;
     this.rootEl = document.createElement('div');
     this.rootEl.className = 'mini-site';
     this.rootEl.style.width = '900px';
@@ -356,6 +359,11 @@ export class MiniSite {
     div.className = 'command-output';
     this.outputEl.appendChild(div);
     
+    // Start typing sound if SoundManager is available
+    if (this.soundManager) {
+      this.soundManager.playSound('typing');
+    }
+    
     // Split content into lines and process each line
     const lines = content.trim().split('\n');
     
@@ -404,6 +412,11 @@ export class MiniSite {
           await new Promise(resolve => setTimeout(resolve, speed));
         }
       }
+    }
+    
+    // Stop typing sound when finished
+    if (this.soundManager) {
+      this.soundManager.stopSound('typing');
     }
     
     this.scrollToBottom();

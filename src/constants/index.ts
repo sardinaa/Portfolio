@@ -9,6 +9,7 @@ export const DEFAULT_CAMERA_TARGETS = {
   plant: { pos: { x: 0, y: 0, z: 0 }, look: { x: 0, y: 0, z: 0 } },
   camera: { pos: { x: 0, y: 0, z: 0 }, look: { x: 0, y: 0, z: 0 } },
   shoes: { pos: { x: 0, y: 0, z: 0 }, look: { x: 0, y: 0, z: 0 } },
+  keyboard: { pos: { x: -2.6, y: 1.8, z: 3.4 }, look: { x: 0.0, y: 1.0, z: 0.0 } }, // Uses default camera position
 } as const;
 
 // Contact information - loaded from JSON config
@@ -28,7 +29,8 @@ export const SCENE_OBJECTS = {
   PHONE: 'Phone',
   PLANT: 'Plant',
   CAMERA: 'Camera',
-  SHOES: 'Shoes'
+  SHOES: 'Shoes',
+  KEYBOARD: 'Keyboard'
 } as const;
 
 // Renderer configuration

@@ -66,6 +66,16 @@ export class SceneManager {
     this.objects.plantMesh = root.getObjectByName(SCENE_OBJECTS.PLANT) || null;
     this.objects.cameraMesh = root.getObjectByName(SCENE_OBJECTS.CAMERA) || null;
     this.objects.shoesMesh = root.getObjectByName(SCENE_OBJECTS.SHOES) || null;
+    this.objects.keyboardMesh = root.getObjectByName(SCENE_OBJECTS.KEYBOARD) || null;
+
+    // Try case-insensitive fallback for keyboard mesh
+    if (!this.objects.keyboardMesh) {
+      root.traverse((o: any) => {
+        if (!this.objects.keyboardMesh && o?.name && typeof o.name === 'string' && /keyboard/i.test(o.name)) {
+          this.objects.keyboardMesh = o;
+        }
+      });
+    }
 
     // Try case-insensitive fallback for screen mesh
     if (!this.objects.screenMesh) {
@@ -99,6 +109,7 @@ export class SceneManager {
       { name: 'Plant', obj: this.objects.plantMesh, optional: true },
       { name: 'Camera', obj: this.objects.cameraMesh, optional: true },
       { name: 'Shoes', obj: this.objects.shoesMesh, optional: true },
+      { name: 'Keyboard', obj: this.objects.keyboardMesh, optional: true },
     ];
 
     objectChecks.forEach(({ name, obj, optional }) => {

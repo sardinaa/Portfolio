@@ -2,6 +2,7 @@ import { MiniSite } from '../../ui/miniSite';
 import { SceneObjects } from '../../types';
 import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 import { TopLeftInfo, PDFOverlay, HelperText, ControlPanel } from '../../components';
+import { SoundManager } from '../../systems/SoundManager';
 
 export class UIManager {
   private miniSite: MiniSite;
@@ -10,12 +11,14 @@ export class UIManager {
   private helperText: HelperText;
   private controlPanel: ControlPanel;
   private appContainer: HTMLElement;
+  private soundManager?: SoundManager;
 
-  constructor(appContainer: HTMLElement) {
+  constructor(appContainer: HTMLElement, soundManager?: SoundManager) {
     this.appContainer = appContainer;
+    this.soundManager = soundManager;
     
     // Initialize existing components
-    this.miniSite = new MiniSite();
+    this.miniSite = new MiniSite(soundManager);
     
     // Initialize new modular components (PDFOverlay replaces PdfViewer)
     this.topLeftInfo = new TopLeftInfo();

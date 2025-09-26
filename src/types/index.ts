@@ -23,6 +23,7 @@ export interface SceneObjects {
   plantMesh?: any | null; // THREE.Object3D
   cameraMesh?: any | null; // THREE.Object3D
   shoesMesh?: any | null; // THREE.Object3D
+  keyboardMesh?: any | null; // THREE.Object3D
 }
 
 export interface ContactInfo {

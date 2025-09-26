@@ -33,18 +33,20 @@
 
 /* Bulb button specific styling */
 .bulb-btn {
-  font-size: 12px;
-  line-height: 1;
-  color: #ffdd44;
-  text-shadow: 0 0 4px rgba(255, 221, 68, 0.5);
   transition: all 0.15s ease;
+}
+
+.bulb-btn img {
+  filter: brightness(1.2) sepia(1) hue-rotate(20deg) saturate(1.5) drop-shadow(0 0 4px rgba(255, 221, 68, 0.6));
 }
 
 .bulb-btn:hover {
   background: #222;
-  color: #ffee66;
-  text-shadow: 0 0 8px rgba(255, 238, 102, 0.8);
   transform: scale(1.1);
+}
+
+.bulb-btn:hover img {
+  filter: brightness(1.4) sepia(1) hue-rotate(20deg) saturate(2) drop-shadow(0 0 8px rgba(255, 238, 102, 0.8));
 }
 
 .bulb-btn:active {
@@ -61,7 +63,10 @@
 .bulb-btn:disabled:hover,
 .bulb-btn[style*="not-allowed"]:hover {
   background: #000;
-  color: #ffdd44;
-  text-shadow: 0 0 4px rgba(255, 221, 68, 0.5);
   transform: scale(1);
+}
+
+.bulb-btn:disabled img,
+.bulb-btn[style*="not-allowed"] img {
+  filter: brightness(0.8) sepia(1) hue-rotate(20deg) saturate(1) drop-shadow(0 0 2px rgba(255, 221, 68, 0.3));
 }

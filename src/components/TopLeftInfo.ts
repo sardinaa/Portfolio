@@ -9,6 +9,7 @@ export class TopLeftInfo {
   private bulbButton!: HTMLButtonElement;
   private muteIcon!: HTMLImageElement;
   private camIcon!: HTMLImageElement;
+  private bulbIcon!: HTMLImageElement;
   private timeInterval?: number;
   private isVisible: boolean = true;
   private isBlinkInProgress: boolean = false;
@@ -37,7 +38,7 @@ export class TopLeftInfo {
           <img id="cam-icon" src="${baseUrl}icons/cursor.png" alt="Cursor" width="14" height="14">
         </button>
         <button class="icon-btn bulb-btn" id="bulb-btn" title="Show Interactive Objects" aria-label="Highlight interactive objects">
-          💡
+          <img id="bulb-icon" src="${baseUrl}icons/bulb_light.png" alt="Light Bulb" width="14" height="14">
         </button>
       </div>
     `;
@@ -49,6 +50,7 @@ export class TopLeftInfo {
     this.bulbButton = this.element.querySelector('#bulb-btn') as HTMLButtonElement;
     this.muteIcon = this.element.querySelector('#mute-icon') as HTMLImageElement;
     this.camIcon = this.element.querySelector('#cam-icon') as HTMLImageElement;
+    this.bulbIcon = this.element.querySelector('#bulb-icon') as HTMLImageElement;
   }
 
   private setupEventListeners(): void {
