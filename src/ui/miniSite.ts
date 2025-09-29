@@ -312,11 +312,9 @@ export class MiniSite {
     // but not when clicking on interactive elements like input or header buttons
     this.rootEl.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
-      // Only trigger screen click if not clicking on input field, terminal output, or header commands
+      // Only avoid triggering on input field and header command buttons
       if (!target.closest('.terminal-input') && 
-          !target.closest('.terminal-output') && 
           !target.closest('.terminal-header span[data-cmd]')) {
-        console.log('🖥️ MiniSite clicked - triggering screen interaction');
         this.onScreenClick?.();
       }
     });
@@ -842,12 +840,20 @@ ${factsHtml}
   }
 
   attachTo(screenNode: THREE.Object3D, css3d: CSS3DRenderer, camera: THREE.Camera) {
-    console.log(`🖥️ MiniSite attachTo called, screenNode:`, screenNode);
     // Create only once
     if (!this.css3dObj) {
       this.css3dObj = new CSS3DObject(this.rootEl);
       this.css3dObj.element.style.pointerEvents = 'none';
-      console.log(`🖥️ Created CSS3DObject for mini site`);
+      
+      // Ensure click handler works with CSS3D by also attaching to the CSS3D element
+      this.css3dObj.element.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        // Only avoid triggering on input field and header command buttons
+        if (!target.closest('.terminal-input') && 
+            !target.closest('.terminal-header span[data-cmd]')) {
+          this.onScreenClick?.();
+        }
+      });
     }
 
   // Parent under the screen node for orientation alignment

@@ -114,7 +114,6 @@ export class App {
     };
 
     this.uiManager.onScreenClick = () => {
-      console.log('🖥️ Screen clicked via MiniSite - triggering camera repositioning');
       this.soundManager.playSound('swoosh-in');
       this.uiManager.hideTopLeftInfo();
       this.openMonitor();
