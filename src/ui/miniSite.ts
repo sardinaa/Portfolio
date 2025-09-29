@@ -8,6 +8,7 @@ export class MiniSite {
   private css3dObj: CSS3DObject | null = null;
   private visible = false;
   onClose?: () => void;
+  onScreenClick?: () => void;
 
   private commandHistory: string[] = [];
   private historyIndex: number = -1;
@@ -15,6 +16,8 @@ export class MiniSite {
   private inputEl: HTMLInputElement;
   private styleEl: HTMLStyleElement;
   private soundManager?: SoundManager;
+  private userHasScrolledUp: boolean = false;
+  private lastScrollTop: number = 0;
 
   constructor(soundManager?: SoundManager) {
     this.soundManager = soundManager;
@@ -168,7 +171,7 @@ export class MiniSite {
         padding: 4px 0;
       }
       .command-output { margin: 8px 0; }
-      .command-output img { 
+      .command-output img:not(.project-image) { 
         max-width: 150px; 
         height: auto; 
         border-radius: 6px; 
@@ -179,6 +182,55 @@ export class MiniSite {
       .info { color: #66ccff; }
       .success { color: #66ff66; }
       .highlight { color: #ffff66; }
+      .project-item { 
+        margin: 16px 0; 
+        padding: 12px 0; 
+        border-bottom: 1px solid #333;
+      }
+      .project-item:last-child {
+        border-bottom: none;
+      }
+      .project-subtitle { 
+        color: #66ccff; 
+        margin: 4px 0; 
+        font-style: italic; 
+      }
+      .project-role { 
+        color: #ffff66; 
+        margin: 2px 0; 
+        font-size: 0.9em; 
+      }
+      .project-summary { 
+        margin: 8px 0; 
+        line-height: 1.4; 
+      }
+      .project-tech { 
+        margin: 6px 0; 
+        font-size: 0.9em; 
+      }
+      .project-links { 
+        margin: 4px 0; 
+        font-size: 0.9em; 
+      }
+      .project-highlights { 
+        margin: 8px 0; 
+        font-size: 0.9em; 
+        line-height: 1.4; 
+      }
+      .project-image-container { 
+        text-align: center; 
+        margin: 12px 0; 
+      }
+      .project-image { 
+        max-width: 800px; 
+        max-height: 800px; 
+        width: auto; 
+        height: auto; 
+        border: 1px solid #00ff00; 
+        border-radius: 4px; 
+        display: block; 
+        margin: 0 auto; 
+      }
       a { 
         color: #00ff00; 
         text-decoration: underline; 
@@ -256,6 +308,19 @@ export class MiniSite {
       }
     });
 
+    // Add click handler to trigger screen/monitor interaction when mini site is clicked
+    // but not when clicking on interactive elements like input or header buttons
+    this.rootEl.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      // Only trigger screen click if not clicking on input field, terminal output, or header commands
+      if (!target.closest('.terminal-input') && 
+          !target.closest('.terminal-output') && 
+          !target.closest('.terminal-header span[data-cmd]')) {
+        console.log('🖥️ MiniSite clicked - triggering screen interaction');
+        this.onScreenClick?.();
+      }
+    });
+
     // Add explicit scroll event handlers
     this.setupScrollHandlers();
 
@@ -301,6 +366,29 @@ export class MiniSite {
 
   private appendToOutput(content: string) {
     this.outputEl.innerHTML += content;
+    this.conditionalScrollToBottom();
+  }
+
+  private isScrolledToBottom(): boolean {
+    const threshold = 50; // Increased threshold to 50px for more reliable detection
+    const scrollTop = this.outputEl.scrollTop;
+    const scrollHeight = this.outputEl.scrollHeight;
+    const clientHeight = this.outputEl.clientHeight;
+    const isAtBottom = scrollTop >= (scrollHeight - clientHeight - threshold);
+    
+    // Also consider if we're very close to bottom or if scroll height is very small
+    const isVeryClose = (scrollHeight - clientHeight) <= threshold;
+    
+    return isAtBottom || isVeryClose;
+  }
+
+  private conditionalScrollToBottom() {
+    // If user has explicitly scrolled up, don't auto-scroll
+    if (this.userHasScrolledUp) {
+      return;
+    }
+    
+    // Otherwise, always auto-scroll to maintain smooth typing experience
     this.scrollToBottom();
   }
 
@@ -312,6 +400,24 @@ export class MiniSite {
   }
 
   private setupScrollHandlers() {
+    // Track scroll position to detect user scroll behavior
+    this.outputEl.addEventListener('scroll', () => {
+      const currentScrollTop = this.outputEl.scrollTop;
+      const scrollHeight = this.outputEl.scrollHeight;
+      const clientHeight = this.outputEl.clientHeight;
+      const maxScrollTop = scrollHeight - clientHeight;
+      
+      // Check if user scrolled up significantly (more than 150px from bottom)
+      if (currentScrollTop < maxScrollTop - 150) {
+        this.userHasScrolledUp = true;
+      } else if (currentScrollTop >= maxScrollTop - 20) {
+        // User is back near the bottom, resume auto-scroll
+        this.userHasScrolledUp = false;
+      }
+      
+      this.lastScrollTop = currentScrollTop;
+    });
+
     // Handle mouse wheel scrolling
     this.outputEl.addEventListener('wheel', (e) => {
       e.stopPropagation();
@@ -354,7 +460,7 @@ export class MiniSite {
     this.outputEl.setAttribute('tabindex', '0');
   }
 
-  private async typeOutput(content: string, speed: number = 20) {
+  private async typeOutput(content: string, speed: number = 5) {
     const div = document.createElement('div');
     div.className = 'command-output';
     this.outputEl.appendChild(div);
@@ -375,7 +481,7 @@ export class MiniSite {
         const lineDiv = document.createElement('div');
         lineDiv.innerHTML = '&nbsp;';
         div.appendChild(lineDiv);
-        this.scrollToBottom();
+        this.conditionalScrollToBottom();
         await new Promise(resolve => setTimeout(resolve, speed * 2));
         continue;
       }
@@ -406,7 +512,7 @@ export class MiniSite {
         }
         
         lineDiv.innerHTML = htmlWithPartialText;
-        this.scrollToBottom();
+        this.conditionalScrollToBottom();
         
         if (i < textContent.length) {
           await new Promise(resolve => setTimeout(resolve, speed));
@@ -419,7 +525,7 @@ export class MiniSite {
       this.soundManager.stopSound('typing');
     }
     
-    this.scrollToBottom();
+    this.conditionalScrollToBottom();
   }
 
   private replaceTextContent(element: HTMLElement, visibleText: string, fullText: string) {
@@ -502,7 +608,7 @@ export class MiniSite {
         this.onClose?.();
         break;
       default:
-        await this.typeOutput(`<div class="error">Command not found: ${cmd}</div><div class="info">Type 'help' to see available commands.</div>`, 20);
+        await this.typeOutput(`<div class="error">Command not found: ${cmd}</div><div class="info">Type 'help' to see available commands.</div>`, 5);
     }
   }
 
@@ -518,7 +624,7 @@ export class MiniSite {
 ${commandsHtml}
 </div>
 <div class="info">${helpConfig.footer}</div>
-`, 15);
+`, 3);
   }
 
   private async showAbout() {
@@ -540,15 +646,36 @@ ${commandsHtml}
 <span class="info">Specialties:</span>
 ${specialtiesHtml}
 </div>
-`, 15);
+`, 3);
   }
 
   private async showProjects() {
     const projectsConfig = portfolioConfig.getTerminalSection('projects') as any;
-    const projectsHtml = projectsConfig.projects
-      .map((project: any) => `<span class="success">${project.icon} ${project.name}</span>
-${project.description}
-Technologies: ${project.technologies}`)
+    const projectsHtml = projectsConfig.items
+      .map((project: any) => {
+        const techList = project.tech ? project.tech.join(', ') : 'N/A';
+        const imagesHtml = project.images 
+          ? project.images.map((img: string) => {
+              const imgPath = img.startsWith('/') ? `/Portfolio${img}` : img;
+              return `<div class="project-image-container"><img src="${imgPath}" alt="${project.name}" class="project-image" onerror="console.error('Failed to load image: ${imgPath}')" /></div>`;
+            }).join('')
+          : '';
+        
+        const highlightsHtml = project.highlights 
+          ? project.highlights.map((highlight: string) => `• ${highlight}`).join('\n')
+          : '';
+        
+        return `<div class="project-item">
+<span class="success">▶ ${project.name}</span>
+<div class="project-subtitle">${project.subtitle}</div>
+<div class="project-role"><span class="info">Role:</span> ${project.role}</div>
+${imagesHtml}
+<div class="project-summary">${project.summary}</div>
+${highlightsHtml ? `<div class="project-highlights"><span class="info">Key Features:</span>\n${highlightsHtml}</div>` : ''}
+<div class="project-tech"><span class="info">Technologies:</span> ${techList}</div>
+${project.links?.repo ? `<div class="project-links"><span class="info">Repository:</span> <a href="${project.links.repo}" target="_blank">${project.links.repo}</a></div>` : ''}
+</div>`;
+      })
       .join('\n\n');
     
     await this.typeOutput(`
@@ -558,7 +685,7 @@ ${projectsHtml}
 
 <span class="info">${projectsConfig.footer}</span>
 </div>
-`, 15);
+`, 3);
   }
 
   private async showSkills() {
@@ -575,7 +702,7 @@ ${projectsHtml}
 <div>
 ${categoriesHtml}
 </div>
-`, 15);
+`, 3);
   }
 
   private async showExperience() {
@@ -594,7 +721,7 @@ ${highlightsHtml}`;
 <div>
 ${positionsHtml}
 </div>
-`, 15);
+`, 3);
   }
 
   private async showContact() {
@@ -611,7 +738,7 @@ ${positionsHtml}
 
 <span class="info">Feel free to reach out for opportunities or collaborations!</span>
 </div>
-`, 15);
+`, 3);
   }
 
   private async showEducation() {
@@ -634,7 +761,7 @@ ${courseworkHtml}
 <span class="success">Academic Projects:</span>
 ${projectsHtml}
 </div>
-`, 15);
+`, 3);
   }
 
   private async showCertifications() {
@@ -651,7 +778,7 @@ ${certificationsHtml}
 
 <span class="info">${certificationsConfig.footer}</span>
 </div>
-`, 15);
+`, 3);
   }
 
   private async showLeadership() {
@@ -704,7 +831,7 @@ However, I appreciate your curiosity! Here's a secret:
 <span class="success">Fun Facts:</span>
 ${factsHtml}
 </div>
-`, 15);
+`, 3);
   }
 
   private clearTerminal() {
@@ -824,6 +951,61 @@ ${factsHtml}
       .terminal-output { 
         line-height: ${this.getResponsiveLineHeight()};
       }
+      .project-item { 
+        margin: 16px 0; 
+        padding: 12px 0; 
+        border-bottom: 1px solid #333;
+      }
+      .project-item:last-child {
+        border-bottom: none;
+      }
+      .project-subtitle { 
+        color: #66ccff; 
+        margin: 4px 0; 
+        font-style: italic; 
+        font-size: ${fontSize * 0.9}px;
+      }
+      .project-role { 
+        color: #ffff66; 
+        margin: 2px 0; 
+        font-size: ${fontSize * 0.85}px;
+      }
+      .project-summary { 
+        margin: 8px 0; 
+        line-height: 1.4;
+        font-size: ${fontSize}px;
+      }
+      .project-tech { 
+        margin: 6px 0; 
+        font-size: ${fontSize * 0.85}px;
+      }
+      .project-links { 
+        margin: 4px 0; 
+        font-size: ${fontSize * 0.85}px;
+      }
+      .project-highlights { 
+        margin: 8px 0; 
+        font-size: ${fontSize * 0.85}px; 
+        line-height: 1.4; 
+      }
+      .project-image-container { 
+        text-align: center; 
+        margin: 12px 0; 
+      }
+      .project-image { 
+        max-width: ${window.innerWidth <= 350 ? '400px' : '800px'}; 
+        max-height: ${window.innerWidth <= 350 ? '400px' : '800px'}; 
+        width: auto; 
+        height: auto; 
+        border: 1px solid #00ff00; 
+        border-radius: 4px; 
+        display: block; 
+        margin: 0 auto; 
+      }
+      .success { color: #66ff66; }
+      .info { color: #66ccff; }
+      .highlight { color: #ffff66; }
+      .error { color: #ff6666; }
     `;
   }
 
@@ -860,7 +1042,7 @@ ${factsHtml}
       return 36;
     } else if (width <= 1024) {
       // Medium screens
-      return 13;
+      return 34;
     } else {
       // Desktop - original size
       return 12;

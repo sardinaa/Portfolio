@@ -82,34 +82,113 @@
         ]
       },
       "projects": {
-        "title": "Featured Projects",
-        "projects": [
+        "title": "Projects",
+        "items": [
           {
-            "name": "3D Portfolio Website",
-            "icon": "🌐",
-            "description": "Interactive 3D environment built with Three.js and TypeScript",
-            "technologies": "WebGL, CSS3D, Vite"
+            "name": "Oasi",
+            "subtitle": "AI‑powered productivity suite (notes, chat, jobs, calendar, tasks)",
+            "role": "Creator & Lead Developer",
+            "links": {
+              "repo": "https://github.com/sardinaa/Oasi"
+            },
+            "images": [
+              "/projects/Oasis/chat_with_documents_and_selections.png"
+            ],
+            "tech": [
+              "Python",
+              "Flask",
+              "EditorJS",
+              "RAG",
+              "Ollama/LLMs",
+              "SQL"
+            ],
+            "highlights": [
+              "Smart note‑taking with EditorJS and AI inline toolbar (RAG).",
+              "AI chat with local/cloud model selection and document integration.",
+              "Job management: scraping, dashboard, tracking, and smart filtering.",
+              "Calendar/scheduling and task management modules with tags & folders.",
+              "Roadmap-driven architecture; MIT licensed."
+            ],
+            "summary": "Unified workspace that brings together AI notes, chat, job tracking, scheduling and tasks."
           },
           {
-            "name": "Data Visualization Dashboard", 
-            "icon": "📊",
-            "description": "Real-time analytics platform with interactive charts",
-            "technologies": "React, D3.js, Node.js, PostgreSQL"
+            "name": "Advanced Image Editor",
+            "subtitle": "Desktop image editor with AI (SAM segmentation + SD inpainting)",
+            "role": "Creator & Lead Developer",
+            "links": {
+              "repo": "https://github.com/sardinaa/Image-editor"
+            },
+            "images": [
+              "/projects/Image Editor/ai_features.gif"
+            ],
+            "tech": [
+              "Python",
+              "DearPyGUI",
+              "OpenCV",
+              "PyTorch",
+              "Diffusers",
+              "SAM"
+            ],
+            "highlights": [
+              "Core tools: exposure, color grading, curves, histogram; transform (crop/rotate/flip).",
+              "AI features: auto‑segmentation (SAM), mask generation, generative inpainting.",
+              "Masking system with multiple masks and selective region editing.",
+              "GPU acceleration with CPU fallback; modular, service‑layer architecture.",
+              "Export to PNG/JPG/TIFF/BMP; MIT licensed."
+            ],
+            "summary": "Combines classic photo tools with modern AI for segmentation and content replacement."
           },
           {
-            "name": "WebGL Game Engine",
-            "icon": "🎮", 
-            "description": "Custom game engine with physics and lighting systems",
-            "technologies": "WebGL, GLSL, TypeScript"
+            "name": "Isolated Sign Language Recognition",
+            "subtitle": "Pose‑landmark pipeline + Transformer classifier (100 classes)",
+            "role": "Author",
+            "links": {
+              "repo": "https://github.com/sardinaa/Sign-Language-Translator"
+            },
+            "images": [
+              "/projects/Sing Translator/book.gif"
+            ],
+            "tech": [
+              "Python",
+              "PyTorch",
+              "MediaPipe",
+              "NumPy"
+            ],
+            "highlights": [
+              "Extracts pose/hand/face landmarks; handles gaps via cubic interpolation & confidence filters.",
+              "Augmentation (rotation, zoom, shift, re‑anchoring wrists) and normalization to body frame.",
+              "Transformer model with positional encoding, multi‑head attention, LayerNorm & dropout.",
+              "Evaluation scripts (precision/recall/F1, confusion matrix) and webcam real‑time demo.",
+              "Utilities for landmark comparison videos and early stopping callbacks."
+            ],
+            "summary": "End‑to‑end pipeline for isolated sign recognition using landmarks and Transformers."
           },
           {
-            "name": "E-commerce Platform",
-            "icon": "🛒",
-            "description": "Full-stack application with payment integration", 
-            "technologies": "Next.js, Stripe API, MongoDB"
+            "name": "Intel RealSense SR300 / DepthSense Utilities",
+            "subtitle": "Legacy depth camera toolkit for SR300/Senz3D: capture, view, calibrate, and export",
+            "role": "Creator",
+            "links": {
+              "repo": "https://github.com/sardinaa/camera"
+            },
+            "images": [],
+            "tech": [
+              "C++",
+              "Python",
+              "OpenCV",
+              "OpenNI2",
+              "DepthSense SDK",
+              "Docker"
+            ],
+            "highlights": [
+              "Device support for Intel RealSense SR300 and Creative BlasterX Senz3D (DepthSense).",
+              "Depth/IR/RGB streaming with synchronized capture; basic point-cloud preview.",
+              "Intrinsic/extrinsic calibration helpers and frame alignment (depth-to-RGB).",
+              "Recording to lossless image stacks / simple NPZ sequences for ML pipelines.",
+              "Dockerized environment for deprecated SDKs on modern Linux distros."
+            ],
+            "summary": "Tools to keep older RealSense/DepthSense depth cameras usable on modern systems."
           }
-        ],
-        "footer": "Visit my GitHub or project portfolio for more details!"
+        ]
       },
       "skills": {
         "title": "Technical Skills",
@@ -296,7 +375,7 @@
       ]
     },
     "helperText": {
-      "defaultMessage": "Click on objects to interact • Press F for free camera mode"
+      "defaultMessage": "Click on objects to interact • Use the light bulb to show the selectable objects"
     }
   }
 }

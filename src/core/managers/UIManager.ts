@@ -39,6 +39,10 @@ export class UIManager {
       this.onUIClose?.();
     };
 
+    this.miniSite.onScreenClick = () => {
+      this.onScreenClick?.();
+    };
+
     this.pdfOverlay.onClose = () => {
       this.onUIClose?.();
     };
@@ -70,6 +74,7 @@ export class UIManager {
   onAudioToggle?: (muted: boolean) => void;
   onCameraToggle?: (freeCam: boolean) => void;
   onBlinkTrigger?: () => void;
+  onScreenClick?: () => void;
 
   attachMiniSiteToScreen(objects: SceneObjects, css3d: CSS3DRenderer, camera: any): void {
     console.log(`🎮 UIManager: attachMiniSiteToScreen called. screenMesh:`, !!objects.screenMesh, `monitorMesh:`, !!objects.monitorMesh);

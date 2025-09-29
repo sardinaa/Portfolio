@@ -160,15 +160,54 @@ export class CameraManager {
     
     // Additional adjustment for very small heights (landscape mobile)
     if (height <= 500) {
-      zoomFactor *= 1.2;
+      zoomFactor *= 1.0;
     }
     
     // Touch devices generally benefit from being zoomed out a bit more
     if (this.isTouchDevice()) {
-      zoomFactor *= 1.1;
+      zoomFactor *= 1.0;
     }
     
     console.log(`📱 Responsive zoom factor: ${zoomFactor.toFixed(2)} (${width}x${height}, aspect: ${aspect.toFixed(2)})`);
+    return zoomFactor;
+  }
+
+  private calculateContactInfoZoomFactor(): number {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const aspect = width / height;
+    
+    // Specialized zoom factors for contact info to avoid chair collision and ensure phone visibility
+    let zoomFactor = 1.0;
+    
+    // Mobile portrait (very narrow screens) - zoom in more for better contact visibility
+    if (width <= 480) {
+      zoomFactor = aspect < 0.6 ? 0.8 : 0.9; // Zoom in more for very narrow screens
+    }
+    // Mobile landscape and small tablets - moderate zoom in
+    else if (width <= 768) {
+      zoomFactor = aspect < 1.0 ? 0.9 : 1.0;
+    }
+    // Medium tablets - slight zoom in
+    else if (width <= 1024) {
+      zoomFactor = aspect < 1.0 ? 0.95 : 1.0;
+    }
+    // Desktop and large screens - standard zoom
+    else {
+      zoomFactor = 1.0;
+    }
+    
+    // Additional adjustment for very small heights (landscape mobile) - zoom in more
+    if (height <= 500) {
+      zoomFactor *= 0.85; // Zoom in more on landscape mobile
+    }
+    
+    // Touch devices get closer positioning for better contact info interaction
+    if (this.isTouchDevice()) {
+      zoomFactor *= 0.9; // Closer positioning on touch devices
+    }
+    
+    console.log(`📞 Contact info zoom factor: ${zoomFactor.toFixed(2)} (${width}x${height}, aspect: ${aspect.toFixed(2)})`);
     return zoomFactor;
   }
 
@@ -224,7 +263,7 @@ export class CameraManager {
       this.targets.paper.look.copy(pCenter);
     }
 
-    // Setup phone target - exactly like original
+    // Setup phone target with specialized mobile zoom factor for contact info
     if (objects.phoneMesh) {
       const phb = new THREE.Box3().setFromObject(objects.phoneMesh);
       const phCenter = new THREE.Vector3();
@@ -239,10 +278,10 @@ export class CameraManager {
       if (Math.abs(normal.y) > 0.75) {
         normal = new THREE.Vector3(1, 0.3, 1).normalize();
       }
-      // Increased distance for better phone visibility
-      const baseDistance = Math.max(0.4, maxDim * 2.4); // Increased from 2.0
-      const screenZoomFactor = this.calculateResponsiveZoomFactor();
-      const distance = baseDistance * screenZoomFactor;
+      // Use specialized zoom factor for contact info to avoid collision with chair on mobile
+      const baseDistance = Math.max(0.4, maxDim * 2.0);
+      const contactZoomFactor = this.calculateContactInfoZoomFactor();
+      const distance = baseDistance * contactZoomFactor;
       const offset = normal.clone().multiplyScalar(distance).add(new THREE.Vector3(0, Math.max(0.15, maxDim * 0.5), 0));
       const phPos = phCenter.clone().add(offset);
       

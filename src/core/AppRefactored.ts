@@ -109,9 +109,15 @@ export class App {
     };
 
     this.uiManager.onBlinkTrigger = () => {
-      this.soundManager.playSound('keyboard'); // Play keyboard sound for blink
       console.log('💡 Blink triggered from UI');
       this.interactionManager.blinkInteractiveObjects();
+    };
+
+    this.uiManager.onScreenClick = () => {
+      console.log('🖥️ Screen clicked via MiniSite - triggering camera repositioning');
+      this.soundManager.playSound('swoosh-in');
+      this.uiManager.hideTopLeftInfo();
+      this.openMonitor();
     };
     
     this.bindEventHandlers();

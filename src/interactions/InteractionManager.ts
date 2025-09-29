@@ -124,34 +124,67 @@ export class InteractionManager {
       obj.traverse((o: any) => {
         if (o.isMesh) {
           const mesh = o as any;
-          const material = mesh.material as any;
+          let material = mesh.material as any;
           if (material) {
-            if (isPaperObject) {
-              // For paper object: use bright contrasting color with much higher intensity
-              if (material.emissive) {
-                material.emissiveIntensity = intensity * 12.0; // Much higher intensity
-                material.emissive = new THREE.Color(0x003366); // Bright orange-red for maximum visibility
+            // Clone material to avoid affecting other objects with shared materials
+            if (intensity > 0 && !mesh.userData.materialCloned) {
+              if (Array.isArray(material)) {
+                mesh.material = material.map((mat: any) => mat.clone());
+              } else {
+                mesh.material = material.clone();
               }
-              // Also darken the base color for better visibility
-              if (intensity > 0 && material.color) {
-                // Store original color if not already stored
-                if (!material.userData.originalColor) {
-                  material.userData.originalColor = material.color.clone();
-                }
-                // Apply dark tint to base color
-                material.color = new THREE.Color(0x4466cc); // Medium blue tint
-              } else if (intensity === 0 && material.userData.originalColor) {
-                // Restore original color when hover ends
-                material.color = material.userData.originalColor.clone();
-              }
-            } else {
-              // For other objects: use default light blue
-              if (material.emissive) {
-                material.emissiveIntensity = intensity;
-                material.emissive = new THREE.Color(ANIMATION_CONFIG.EMISSIVE_COLOR);
-              }
+              material = mesh.material;
+              mesh.userData.materialCloned = true;
             }
-            material.needsUpdate = true;
+
+            // Apply emissive effect
+            const materials = Array.isArray(material) ? material : [material];
+            materials.forEach((mat: any) => {
+              if (isPaperObject) {
+                // For paper object: use bright contrasting color with much higher intensity
+                if (mat.emissive) {
+                  if (intensity > 0) {
+                    // Store original emissive if not already stored
+                    if (!mat.userData.originalEmissive) {
+                      mat.userData.originalEmissive = mat.emissive.clone();
+                      mat.userData.originalEmissiveIntensity = mat.emissiveIntensity || 0;
+                    }
+                    mat.emissiveIntensity = intensity * 12.0;
+                    mat.emissive = new THREE.Color(0x003366);
+                  } else {
+                    // Reset to original emissive values when intensity is 0
+                    if (mat.userData.originalEmissive) {
+                      mat.emissive.copy(mat.userData.originalEmissive);
+                      mat.emissiveIntensity = mat.userData.originalEmissiveIntensity;
+                    } else {
+                      mat.emissive = new THREE.Color(0x000000);
+                      mat.emissiveIntensity = 0;
+                    }
+                  }
+                }
+                // Also darken the base color for better visibility
+                if (intensity > 0 && mat.color) {
+                  if (!mat.userData.originalColor) {
+                    mat.userData.originalColor = mat.color.clone();
+                  }
+                  mat.color = new THREE.Color(0x4466cc);
+                } else if (intensity === 0 && mat.userData.originalColor) {
+                  mat.color = mat.userData.originalColor.clone();
+                }
+              } else {
+                // For other objects: use default light blue
+                if (mat.emissive) {
+                  if (intensity > 0) {
+                    mat.emissiveIntensity = intensity;
+                    mat.emissive = new THREE.Color(ANIMATION_CONFIG.EMISSIVE_COLOR);
+                  } else {
+                    mat.emissiveIntensity = 0;
+                    mat.emissive = new THREE.Color(0x000000);
+                  }
+                }
+              }
+              mat.needsUpdate = true;
+            });
           }
         }
       });
@@ -220,6 +253,15 @@ export class InteractionManager {
       if (obj) {
         obj.traverse((child: any) => {
           if (child.isMesh && child.material) {
+            // Clone materials to avoid affecting other objects with shared materials
+            if (!child.userData.blinkMaterialCloned) {
+              if (Array.isArray(child.material)) {
+                child.material = child.material.map((mat: any) => mat.clone());
+              } else {
+                child.material = child.material.clone();
+              }
+              child.userData.blinkMaterialCloned = true;
+            }
             
             if (Array.isArray(child.material)) {
               child.material.forEach((mat: any, index: number) => {
