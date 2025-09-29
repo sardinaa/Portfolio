@@ -323,44 +323,43 @@
         "title": "Leadership & Achievements",
         "experience": [
           {
-            "role": "Technical Team Lead",
+            "role": "Project Lead & Creator",
             "period": "2022 - Present",
             "highlights": [
-              "Managing team of 6 developers",
-              "Established coding standards and best practices",
-              "Improved team productivity by 35%"
+              "Led development of Oasi AI productivity suite from concept to implementation",
+              "Architected modular systems for Image Editor with AI features",
+              "Mentored research team members on computer vision and deep learning projects"
             ]
           },
           {
             "role": "Open Source Contributor", 
             "highlights": [
-              "Maintainer of popular Three.js utility library (2k+ stars)",
-              "Regular contributor to TypeScript and React projects",
-              "Speaker at local developer meetups"
+              "Creator and maintainer of multiple AI/CV projects on GitHub",
+              "Published MIT-licensed tools for depth camera integration",
+              "Active contributor to computer vision and AI communities"
             ]
           }
         ],
         "achievements": [
-          "\"Developer of the Year\" award (2022)",
-          "Led successful migration to microservices architecture",
-          "Published technical articles with 50k+ reads",
-          "Organized company hackathons and coding workshops"
+          "Developed end-to-end sign language recognition system with 100-class classification",
+          "Successfully integrated SAM segmentation with Stable Diffusion for real-time inpainting",
+          "Built production-ready RAG systems with local and cloud LLM support",
+          "Modernized legacy depth camera SDKs with Docker containerization"
         ],
         "community": [
-          "Volunteer coding instructor for underserved youth",
-          "Mentor for junior developers in tech bootcamps",
-          "Board member of local tech professional association"
+          "Research collaboration with FuBIntLab (UPF) on mixed-reality systems",
+          "Technical mentoring for early-stage AI researchers",
+          "Knowledge sharing through comprehensive project documentation"
         ]
       },
       "sudo": {
         "title": "sudo: access denied", 
         "message": "Nice try! But you don't have root access to my portfolio... 😄",
-        "secret": "I once spent 3 hours debugging a CSS issue that was caused by a single missing semicolon.",
+        "secret": "I once trained a model to recognize my plants, but it kept classifying me as 'needs more sunlight' when I appeared in frame.",
         "funFacts": [
-          "I can solve a Rubik's cube in under 2 minutes",
-          "My first program was \"Hello World\" in BASIC at age 12",
-          "I have a collection of 47 rubber ducks for debugging", 
-          "My favorite keyboard shortcut is Ctrl+Shift+I"
+          "I debug neural networks by talking to my plants 🌱 - they're surprisingly good listeners",
+          "My depth cameras have seen more of my room than I have",
+          "I can explain GANs and Transformers, but still struggle with CSS centering"
         ]
       }
     }
